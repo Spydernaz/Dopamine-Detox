@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True
 
-timer_date = datetime.now().strftime("%m %b %Y, %H:%M:%S")
+timer_date = (datetime.datetime.utcnow() + datetime.timedelta(hours=11)).strftime("%m %b %Y, %H:%M:%S")
 
 
 @app.route('/')
@@ -25,7 +25,7 @@ def timer():
 @app.route("/reset-timer")
 def reset_timer():
     global timer_date
-    timer_date = datetime.now().strftime("%m %b %Y, %H:%M:%S")
+    timer_date = (datetime.datetime.utcnow() + datetime.timedelta(hours=11)).strftime("%m %b %Y, %H:%M:%S")
     return redirect(url_for("timer"))
 
 @app.route("/api/latestreset")
