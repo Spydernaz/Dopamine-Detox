@@ -67,41 +67,49 @@
         // Update the count down every 1 second
         var x = setInterval(function() {
 
-            // Get latest reset time
-            $(function() {
-                jQuery.get("/api/latestreset", function(data, status) {
-                    console.log("Data: " + data + "\nStatus: " + status);
-                    countDownDate = new Date(data).getTime();
+                // Get latest reset time
+                $(function() {
+                    jQuery.get("/api/latestreset", function(data, status) {
+                        console.log("Last Reset: " + data);
+                        countDownDate = new Date(data).getTime();
+                    });
                 });
-            });
 
-            // Get today's date and time
-            //var now = new Date().getTime();
-            var now = new Date;
-            var utc_timestamp = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
-                now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds());
+                // Get today's date and time
+                //var now = new Date().getTime();
+                var now = new Date;
+                // adjust to UTC
+                now.setHours(now.getHours() - 11);
+                // var utc_timestamp = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
+                //     now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds());
 
-            console.log(utc_timestamp.toString())
+                // For logging
+                // var datestring = "" + now.getUTCFullYear() + "-" + now.getUTCMonth() + "-" + now.getUTCDate() + ", " +
+                //     now.getUTCHours() + ":" + now.getUTCMinutes() + ":" + now.getUTCSeconds();
+                // console.log("Current time:" + datestring);
+                // console.log("Current - original" + utc_timestamp + " - " + now)
+                // console.log("Diff = " + (utc_timestamp - now))
 
-            // Find the distance between now and the count down date
-            var distance = now - countDownDate;
+                // Find the distance between now and the count down date
+                var distance = now - countDownDate;
 
-            // Time calculations for days, hours, minutes and seconds
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Display the result in the element with id="demo"
-            document.getElementById("demo").innerHTML = days + "d " + hours + "h " +
-                minutes + "m " + seconds + "s ";
+                // Display the result in the element with id="demo"
+                document.getElementById("demo").innerHTML = days + "d " + hours + "h " +
+                    minutes + "m " + seconds + "s ";
 
-            // If the count down is finished, write some text
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("demo").innerHTML = "EXPIRED";
-            }
-        }, 1000);
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("demo").innerHTML = "EXPIRED";
+                }
+            },
+            1000);
     </script>
 
 </body>
