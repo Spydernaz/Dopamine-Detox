@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True
 
-timer_date = (datetime.utcnow() + timedelta(hours=11)).strftime("%d %b %Y, %H:%M:%S")
+timer_date = (datetime.utcnow()).strftime("%d %b %Y, %H:%M:%S")
 
 @app.route('/')
 def index():
